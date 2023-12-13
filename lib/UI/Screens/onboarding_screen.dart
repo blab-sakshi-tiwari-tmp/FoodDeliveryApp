@@ -40,13 +40,14 @@ class OnBoardingScreenState extends State<OnBoardingScreen> {
     ];
     ResponsiveCalculator calculator = ResponsiveCalculator(context);
     // List<Widget> indicators =
+    logger.e(currentCarouselIndex);
     return Scaffold(
         body: SafeArea(
             child: Center(
                 child: Padding(
       padding: EdgeInsets.symmetric(
-          horizontal: calculator.calculateResponsiveWidth(5),
-          vertical: calculator.calculateResponsiveHeight(5)),
+          horizontal: calculator.calculateResponsiveWidth(0),
+          vertical: calculator.calculateResponsiveHeight(0)),
       child: Container(
         // color: Colors.amber,
         height: calculator.calculateResponsiveHeight(90),
@@ -60,59 +61,60 @@ class OnBoardingScreenState extends State<OnBoardingScreen> {
                   InkWell(
                     child: CarouselSlider(
                         items: carouselOnboardingList
-                            .map((item) => Column(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        children: [
-                                          Text(item['title'],
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .titleLarge)
-                                        ],
-                                      ),
-                                      // Align(
-                                      //     alignment: Alignment.centerLeft,
-                                      //     child: Visibility(
-                                      //         visible: currentCarouselIndex == 0,
-                                      //         child: Container(
-                                      //           height: calculator
-                                      //               .calculateResponsiveHeight(5),
-                                      //           child: Image(
-                                      //             image: AssetImage(
-                                      //                 img.imagesMap['smily']),
-                                      //           ),
-                                      //         ))),
-                                      Container(
-                                        // color: Colors.green,
-                                        // child:
-                                        //  ClipRect(
-                                        //     child: Container(
-                                        //   width: (MediaQuery.of(context)
-                                        //           .size
-                                        //           .width) +
-                                        //       150,
-                                        //   height: MediaQuery.of(context)
-                                        //           .size
-                                        //           .width +
-                                        //       150,
-                                        child: Image(
-                                            image:
-                                                AssetImage(item['image_path']),
-                                            fit: BoxFit.cover,
-                                            width: (MediaQuery.of(context)
-                                                    .size
-                                                    .width) +
-                                                200,
-                                            height: (MediaQuery.of(context)
-                                                    .size
-                                                    .width) +
-                                                70),
-                                      )
-                                    ]))
+                            .map((item) => SingleChildScrollView(
+                                  child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        Stack(
+                                          children: [
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              children: [
+                                                Padding(
+                                                  padding: EdgeInsets.symmetric(
+                                                      horizontal: calculator
+                                                          .calculateResponsiveWidth(
+                                                              5)),
+                                                  child: Text(item['title'],
+                                                      style: Theme.of(context)
+                                                          .textTheme
+                                                          .titleLarge),
+                                                ),
+                                              ],
+                                            ),
+                                            // Align(
+                                            //     alignment: Alignment.centerLeft,
+                                            //     child: Visibility(
+                                            //         visible: currentCarouselIndex == 0,
+                                            //         child: Container(
+                                            //           height: calculator
+                                            //               .calculateResponsiveHeight(5),
+                                            //           child: Image(
+                                            //             image: AssetImage(
+                                            //                 img.imagesMap['smily']),
+                                            //           ),
+                                            //         ))),
+                                            // Positioned(
+                                            // child:
+                                            Image(
+                                                image: AssetImage(
+                                                    item['image_path']),
+                                                fit: BoxFit.cover,
+                                                width: (MediaQuery.of(context)
+                                                        .size
+                                                        .width) +
+                                                    200,
+                                                height: (MediaQuery.of(context)
+                                                        .size
+                                                        .width) +
+                                                    200),
+                                            // )
+                                          ],
+                                        )
+                                      ]),
+                                ))
                             .toList(),
                         carouselController: carouselController,
                         options: CarouselOptions(
@@ -165,7 +167,7 @@ class OnBoardingScreenState extends State<OnBoardingScreen> {
                 children: [
                   Padding(
                     padding: EdgeInsets.symmetric(
-                        // horizontal: calculator.calculateResponsiveWidth(5),
+                        horizontal: calculator.calculateResponsiveWidth(5),
                         vertical: calculator.calculateResponsiveHeight(1)),
                     child: SizedBox(
                       width: calculator.calculateResponsiveWidth(100),
@@ -193,12 +195,14 @@ class OnBoardingScreenState extends State<OnBoardingScreen> {
                           style: Theme.of(context).textTheme.titleSmall,
                         ),
                         onPressed: () {
+                          carouselController.nextPage(
+                              duration: Duration(milliseconds: 10),
+                              curve: Curves.easeInExpo);
                           setState(() {
                             isFocused = 'Next';
                             logger.w(currentCarouselIndex);
-
-                            currentCarouselIndex = currentCarouselIndex >= 0 ||
-                                    currentCarouselIndex <= 2
+                            currentCarouselIndex = currentCarouselIndex >= 0 &&
+                                    currentCarouselIndex < 2
                                 ? currentCarouselIndex + 1
                                 : 0;
                           });
@@ -208,7 +212,7 @@ class OnBoardingScreenState extends State<OnBoardingScreen> {
                   ),
                   Padding(
                     padding: EdgeInsets.symmetric(
-                        // horizontal: calculator.calculateResponsiveWidth(5),
+                        horizontal: calculator.calculateResponsiveWidth(5),
                         vertical: calculator.calculateResponsiveHeight(1)),
                     child: SizedBox(
                       width: calculator.calculateResponsiveWidth(100),
