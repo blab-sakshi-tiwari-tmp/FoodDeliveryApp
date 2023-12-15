@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:food_delivery_app/UI/Screens/geo_location.dart';
+import 'package:food_delivery_app/UI/Screens/loginOrSignup_screen.dart';
+import 'package:food_delivery_app/UI/Screens/login_screen.dart';
+import 'package:food_delivery_app/UI/Screens/onboarding_screen.dart';
+import 'package:food_delivery_app/UI/Screens/otp_verification.dart';
 import 'package:food_delivery_app/UI/Screens/splash_screen.dart';
 
 void main() {
@@ -15,8 +20,6 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
           primaryColor: const Color(0xffFE724C),
           secondaryHeaderColor: Colors.white,
-          // colorScheme: ColorScheme.fromSwatch().copyWith(
-          //     primary: const Color(0xffFE724C), background: Colors.white),
           useMaterial3: true,
           textTheme: const TextTheme(
             titleLarge: TextStyle(
@@ -35,7 +38,7 @@ class MyApp extends StatelessWidget {
                 color: Colors.white,
                 fontFamily: 'Roboto-Regular'),
           )),
-      home: const SplashScreen(),
+      home: GeoLocationScreen(),
     );
   }
 }

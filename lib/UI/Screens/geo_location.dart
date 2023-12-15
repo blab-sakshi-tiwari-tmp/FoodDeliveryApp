@@ -6,14 +6,14 @@ import 'package:food_delivery_app/UI/Utils/images.dart';
 import 'package:food_delivery_app/UI/Utils/responsive_function.dart';
 import 'package:food_delivery_app/UI/Utils/strings.dart';
 
-class OnBoardingScreen extends StatefulWidget {
-  const OnBoardingScreen({Key? key}) : super(key: key);
+class GeoLocationScreen extends StatefulWidget {
+  const GeoLocationScreen({Key? key}) : super(key: key);
 
   @override
-  State<OnBoardingScreen> createState() => OnBoardingScreenState();
+  State<GeoLocationScreen> createState() => GeoLocationState();
 }
 
-class OnBoardingScreenState extends State<OnBoardingScreen> {
+class GeoLocationState extends State<GeoLocationScreen> {
   final CarouselController carouselController = CarouselController();
   int currentCarouselIndex = 0;
 
@@ -54,95 +54,66 @@ class OnBoardingScreenState extends State<OnBoardingScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Container(
-              child: Stack(
+              child: Column(
                 children: [
-                  InkWell(
-                    child: CarouselSlider(
-                        items: carouselOnboardingList
-                            .map((item) => SingleChildScrollView(
-                                  child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        Stack(
-                                          children: [
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              children: [
-                                                Padding(
-                                                  padding: EdgeInsets.symmetric(
-                                                      horizontal: calculator
-                                                          .calculateResponsiveWidth(
-                                                              5)),
-                                                  child: Text(item['title'],
-                                                      style: Theme.of(context)
-                                                          .textTheme
-                                                          .titleLarge),
-                                                ),
-                                              ],
-                                            ),
-                                            Image(
-                                                image: AssetImage(
-                                                    item['image_path']),
-                                                fit: BoxFit.cover,
-                                                width: (MediaQuery.of(context)
-                                                        .size
-                                                        .width) +
-                                                    200,
-                                                height: (MediaQuery.of(context)
-                                                        .size
-                                                        .width) +
-                                                    200),
-                                            // )
-                                          ],
-                                        )
-                                      ]),
-                                ))
-                            .toList(),
-                        carouselController: carouselController,
-                        options: CarouselOptions(
-                          height: calculator.calculateResponsiveHeight(75),
-                          aspectRatio: 2,
-                          viewportFraction: 1,
-                          autoPlay: true,
-                          scrollPhysics: const BouncingScrollPhysics(),
-                          onPageChanged: (index, reason) {
-                            setState(() {
-                              currentCarouselIndex = index;
-                            });
-                          },
-                        )),
+                  Container(
+                    height: calculator.calculateResponsiveHeight(46),
+                    width: calculator.calculateResponsiveWidth(100),
+                    child: Image(
+                        image: AssetImage(img.imagesMap['otpLogin']),
+                        fit: BoxFit.cover,
+                        width: calculator.calculateResponsiveWidth(100),
+                        height: calculator.calculateResponsiveHeight(100)),
                   ),
-                  Positioned(
-                      bottom: calculator.calculateResponsiveHeight(10),
-                      left: 0,
-                      right: 0,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children:
-                            carouselOnboardingList.asMap().entries.map((entry) {
-                          return GestureDetector(
-                            onTap: () => {
-                              carouselController
-                                  .animateToPage(currentCarouselIndex)
-                            },
-                            child: Container(
-                              width: currentCarouselIndex == entry.key ? 10 : 7,
-                              height:
-                                  currentCarouselIndex == entry.key ? 10 : 7,
-                              margin:
-                                  const EdgeInsets.symmetric(horizontal: 2.0),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(50),
-                                color: currentCarouselIndex == entry.key
-                                    ? const Color(0xffFE724C)
-                                    : const Color(0xffFDA38A),
-                              ),
-                            ),
-                          );
-                        }).toList(),
-                      ))
+                  // Image(
+                  //     image: AssetImage(img.imagesMap['gps']),
+                  //     fit: BoxFit.fitWidth,
+                  //     width: calculator.calculateResponsiveWidth(100),
+                  //     height: calculator.calculateResponsiveHeight(100)),
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: calculator.calculateResponsiveWidth(5),
+                        vertical: calculator.calculateResponsiveHeight(1)),
+                    child: Button(
+                      borderColor:
+                          isFocused == string.stringsMap['onBoarding']['skip']
+                              ? Theme.of(context).secondaryHeaderColor
+                              : Theme.of(context).primaryColor,
+                      btnText: string.stringsMap['GPS']['locationBtnHeading'],
+                      btnBgColor:
+                          isFocused == string.stringsMap['onBoarding']['next']
+                              ? Theme.of(context).primaryColor
+                              : Theme.of(context).secondaryHeaderColor,
+                      btnTextColor:
+                          isFocused == string.stringsMap['onBoarding']['next']
+                              ? Theme.of(context).secondaryHeaderColor
+                              : Theme.of(context).primaryColor,
+                      onNavigation: () {
+                        carouselController.nextPage(
+                            duration: const Duration(milliseconds: 10),
+                            curve: Curves.easeInExpo);
+                        setState(() {
+                          isFocused = string.stringsMap['onBoarding']['next'];
+                          logger.w(currentCarouselIndex);
+                          currentCarouselIndex = currentCarouselIndex >= 0 &&
+                                  currentCarouselIndex < 2
+                              ? currentCarouselIndex + 1
+                              : 0;
+                        });
+                      },
+                      btnBorderRadius: 30.0,
+                      padding: 7.0,
+                      width: 100,
+                    ),
+                  ),
+                  Text(
+                    string.stringsMap['GPS']['locationDescription'],
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        fontFamily: 'Roboto-Medium'),
+                  ),
                 ],
               ),
             ),
@@ -158,7 +129,7 @@ class OnBoardingScreenState extends State<OnBoardingScreen> {
                           isFocused == string.stringsMap['onBoarding']['skip']
                               ? Theme.of(context).secondaryHeaderColor
                               : Theme.of(context).primaryColor,
-                      btnText: string.stringsMap['onBoarding']['next'],
+                      btnText: string.stringsMap['GPS']['allow'],
                       btnBgColor:
                           isFocused == string.stringsMap['onBoarding']['next']
                               ? Theme.of(context).primaryColor
@@ -194,7 +165,7 @@ class OnBoardingScreenState extends State<OnBoardingScreen> {
                           isFocused == string.stringsMap['onBoarding']['skip']
                               ? Theme.of(context).secondaryHeaderColor
                               : Theme.of(context).primaryColor,
-                      btnText: string.stringsMap['onBoarding']['skip'],
+                      btnText: string.stringsMap['GPS']['skip'],
                       btnBgColor:
                           isFocused == string.stringsMap['onBoarding']['skip']
                               ? Theme.of(context).primaryColor
