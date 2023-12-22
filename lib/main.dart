@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
                 color: Colors.white,
                 fontFamily: 'Roboto-Regular'),
           )),
-      home: GeoLocationScreen(),
+      home: LoginScreen(),
     );
   }
 }

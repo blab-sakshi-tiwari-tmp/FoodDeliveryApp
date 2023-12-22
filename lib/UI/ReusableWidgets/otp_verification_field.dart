@@ -32,8 +32,8 @@ class OtpVerificationField extends StatelessWidget {
         decoration: InputDecoration(
           counterText: '',
           contentPadding: EdgeInsets.only(
-              top: calculator.calculateResponsiveHeight(2),
-              bottom: calculator.calculateResponsiveHeight(2)),
+              top: calculator.calculateResponsiveHeight(0),
+              bottom: calculator.calculateResponsiveHeight(8)),
           enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(
                 color: const Color(0xffC3BEBD),
